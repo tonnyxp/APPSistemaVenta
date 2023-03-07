@@ -17,9 +17,9 @@ import Swal from 'sweetalert2';
 })
 export class UsuarioComponent implements OnInit, AfterViewInit {
 
-  columnasTabla: string[] = ['nombre', 'correo', 'rol', 'activo', 'acciones'];
+  columnasTabla: string[] = ['nombre', 'correo', 'rol', 'estado', 'acciones'];
   dataInicio: Usuario[] = [];
-  dataListaUsuarios = new MatTableDataSource(this.dataInicio);
+  dataListaUsuarios = new MatTableDataSource<Usuario>(this.dataInicio);
   @ViewChild(MatPaginator) paginacionTabla!: MatPaginator;
 
   constructor(
@@ -32,7 +32,7 @@ export class UsuarioComponent implements OnInit, AfterViewInit {
     this.usuarioServicio.lista().subscribe({
       next: (response) => {
         if (response.status) {
-          this.dataListaUsuarios = response.data;
+          this.dataListaUsuarios.data = response.data;
         } else {
           this.utilidadServicio.mostrarAlerta("No se encontraron datos", "Oops!");
         }
